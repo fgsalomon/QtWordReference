@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/logoQtWordReference.png</file>
+        <file>icons/logoQtWordReference22x22.png</file>
+    </qresource>
+</RCC>
