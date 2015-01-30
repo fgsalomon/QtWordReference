@@ -32,17 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mWRClient, SIGNAL(sendResponse(QByteArray)), this, SLOT(onReceivedResponse(QByteArray)));
     QTextDocument *doc = new QTextDocument(ui->textBrowser);
     ui->textBrowser->setDocument(doc);
-    if (mAPIKey.isEmpty())
-    {
-        ui->textBrowser->setHidden(true);
-        ui->searchPushButton->setEnabled(false);
-        ui->searchTermLineEdit->setEnabled(false);
-        ui->dictionariesComboBox->setEnabled(false);
-    }
-    else
-    {
-        ui->NoAPIKeyWidget->setHidden(true);
-    }
+    APIKeyChanged();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -93,14 +83,14 @@ void MainWindow::on_actionOptions_triggered()
     optionsDialog.exec();
     if (optionsDialog.optionsChanged())
     {
-        #ifdef MAINWINDOW_DEBUG
+#ifdef MAINWINDOW_DEBUG
         qDebug() << "Options changed";
 #endif
         mDefaultDictionaryIndex = optionsDialog.getDefaultDictionaryIndex();
         mDefaultStyleIndex = optionsDialog.getDefaultStyleIndex();
         mAPIKey = optionsDialog.getAPIKey();
         mWRClient->setAPIKey(mAPIKey);
-
+        APIKeyChanged();
     }
 }
 
@@ -214,14 +204,22 @@ QString MainWindow::getCSS()
     return css;
 }
 
-void MainWindow::APIKeyChanged(bool validity)
+void MainWindow::APIKeyChanged()
 {
-    if (validity) // If the API key is valid
+    if (!mAPIKey.isEmpty()) // If the API key is valid
     {
-
+        ui->textBrowser->setHidden(false);
+        ui->searchPushButton->setEnabled(true);
+        ui->searchTermLineEdit->setEnabled(true);
+        ui->dictionariesComboBox->setEnabled(true);
+        ui->NoAPIKeyWidget->setHidden(true);
     }
     else
     {
-
+        ui->textBrowser->setHidden(true);
+        ui->searchPushButton->setEnabled(false);
+        ui->searchTermLineEdit->setEnabled(false);
+        ui->dictionariesComboBox->setEnabled(false);
+        ui->NoAPIKeyWidget->setHidden(false);
     }
 }

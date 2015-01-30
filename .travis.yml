@@ -10,6 +10,5 @@ before_install:
 
 script:
   - cd src/QtWordreference
-  - qmake -project
   - qmake QtWordreference.pro
   - make

@@ -54,7 +54,7 @@ private:
     void writeSettings();
     void readSettings();
     QString getCSS();
-    void APIKeyChanged(bool validity);
+    void APIKeyChanged();
 };
 
 #endif // MAINWINDOW_H
