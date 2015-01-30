@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QIcon>
 #include <QSettings>
+#include <QStyleFactory>
 
 #ifdef DEBUG_MODE
 #define MAINWINDOW_DEBUG
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     setWindowTitle("QtWordReference");
     ui->dictionariesComboBox->addItems(longDictionaryList);
     connect(ui->searchTermLineEdit, SIGNAL(returnPressed()), this, SLOT(on_searchPushButton_clicked()));
@@ -30,6 +32,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mWRClient, SIGNAL(sendResponse(QByteArray)), this, SLOT(onReceivedResponse(QByteArray)));
     QTextDocument *doc = new QTextDocument(ui->textBrowser);
     ui->textBrowser->setDocument(doc);
+    if (mAPIKey.isEmpty())
+    {
+        ui->textBrowser->setHidden(true);
+        ui->searchPushButton->setEnabled(false);
+        ui->searchTermLineEdit->setEnabled(false);
+        ui->dictionariesComboBox->setEnabled(false);
+    }
+    else
+    {
+        ui->NoAPIKeyWidget->setHidden(true);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -87,6 +100,7 @@ void MainWindow::on_actionOptions_triggered()
         mDefaultStyleIndex = optionsDialog.getDefaultStyleIndex();
         mAPIKey = optionsDialog.getAPIKey();
         mWRClient->setAPIKey(mAPIKey);
+
     }
 }
 
@@ -198,4 +212,16 @@ QString MainWindow::getCSS()
         break;
     }
     return css;
+}
+
+void MainWindow::APIKeyChanged(bool validity)
+{
+    if (validity) // If the API key is valid
+    {
+
+    }
+    else
+    {
+
+    }
 }

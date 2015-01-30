@@ -4,9 +4,18 @@
 #include "worddefinition.h"
 #include <QList>
 
+/*!
+ * \brief The WordTranslation class encapsulates a word/expression translation.
+ * A word/expression can have multiple translations. Fox example the word "work"
+ * in the sense of "employment" can be translated to French as "travail" or "emploi".
+ */
+
 class WordTranslation
 {
 public:
+    /*!
+     * \brief WordTranslation empty constructor
+     */
     explicit WordTranslation();
     void setOriginalWord(const WordDefinition &originalWord) {mOriginalWord = originalWord;}
     void setTranslations(const QList<WordDefinition> &translations) {mTranslations = translations;}
@@ -14,8 +23,8 @@ public:
     QList<WordDefinition> getTranslations() const {return mTranslations;}
 
 private:
-    WordDefinition mOriginalWord;
-    QList<WordDefinition> mTranslations;
+    WordDefinition mOriginalWord; /*!< Native word/expression */
+    QList<WordDefinition> mTranslations; /*!< Translation list */
     
 };
 

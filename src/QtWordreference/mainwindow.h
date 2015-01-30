@@ -47,12 +47,14 @@ private:
     static QStringList longDictionaryList;
     static QStringList styleList;
 
+    ///     METHODS    ///
     void createTrayIcon();
     void createActions();
     QString getDictionary();
     void writeSettings();
     void readSettings();
     QString getCSS();
+    void APIKeyChanged(bool validity);
 };
 
 #endif // MAINWINDOW_H
